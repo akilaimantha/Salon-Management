@@ -1,0 +1,32 @@
+{
+  "name": "saloon-management",
+  "version": "1.0.0",
+  "main": "api/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1",
+    "nodemon": "^3.1.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HasinduNiran/Saloon-management.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/HasinduNiran/Saloon-management/issues"
+  },
+  "homepage": "https://github.com/HasinduNiran/Saloon-management#readme",
+  "description": ""
+}
