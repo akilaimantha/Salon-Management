@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 //import inventory from "./routes/inventoryRoute.js";
 import appointment from "./routes/appoimentRouts.js";
 import feedback from "./routes/feedbackRoute.js";
+import Package from "./routes/PackageRoute.js";
+import Service from "./routes/Service_Route.js";
 
 dotenv.config();
 const app = express();
@@ -16,7 +18,8 @@ app.use(cookieParser());
 //app.use("/api/v1/auth", authRoutes); 
 app.use("/api/v1/appoiment", appointment); 
 app.use("/api/v1/feedback", feedback); 
-
+app.use("/api/v1/Package",Package);
+app.use("/api/v1/Service",Service);
   
 const PORT = 7002;
 
