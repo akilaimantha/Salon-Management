@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import dbConnect from "./config/db.js";
 //import authRoutes from "./routes/authRoute.js";
 import cookieParser from "cookie-parser";
-//import inventory from "./routes/inventoryRoute.js";
+import inventory from "./routes/inventoryRoute.js";
 import appointment from "./routes/appoimentRouts.js";
 import feedback from "./routes/feedbackRoute.js";
 import Package from "./routes/PackageRoute.js";
@@ -20,6 +20,7 @@ app.use("/api/v1/appoiment", appointment);
 app.use("/api/v1/feedback", feedback); 
 app.use("/api/v1/Package",Package);
 app.use("/api/v1/Service",Service);
+app.use("/api/v1/inventory", inventory);
   
 const PORT = 7002;
 
