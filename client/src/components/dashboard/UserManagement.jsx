@@ -1,7 +1,7 @@
 // UserManagement.js
 import React from "react";
 import { motion } from "framer-motion";
-import AllUsers from "../users/AllUsers";
+import AllUsers from "../../pages/users/AllUsers";
 
 const users = [
   { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },

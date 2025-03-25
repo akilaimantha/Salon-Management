@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CreateInventory from "../../../pages/Inventory/CreateInventory";
+import ManageInventory from "../../../pages/Inventory/ManageInventory";
 
 export default function InventoryManagement() {
   const [activeTab, setActiveTab] = useState("all"); // State to manage active tab
@@ -60,7 +61,7 @@ export default function InventoryManagement() {
           transition={{ duration: 0.3 }}
           className="mt-4"
         >
-          {/* {activeTab === "all" && <InventoryManagementAll />} */}
+          { activeTab === "all" && <ManageInventory /> }
           {activeTab === "add" && <CreateInventory />}
           {/* {activeTab === "retrieved" && <RetrievedInventoryTable />} */}
         </motion.div>

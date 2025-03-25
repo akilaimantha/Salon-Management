@@ -116,7 +116,7 @@ const EditAppointment = () => {
         title: 'Success!',
         text: 'Appointment updated successfully',
         confirmButtonColor: '#89198f',
-      }).then(() => navigate('/manage-appointments'));
+      }).then(() => navigate('/customer/profile'));
       
     } catch (error) {
       Swal.fire({

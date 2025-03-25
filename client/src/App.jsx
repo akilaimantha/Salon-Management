@@ -1,17 +1,20 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import DashboardLayout from "./components/dashboard/DashboardLayout";
-import Home from "./pages/Home"; 
+
+import { useAppDispatch } from "../store/redux/store";
+import { useEffect } from "react";
+import { checkAuthStatus } from "./features/auth/authactions";
+import AppRoutes from "./routes/Approutes";
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, [dispatch]);
   return (
-    
-      <Router>
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/manager/*" element={<DashboardLayout />} />
-        </Routes>
-      </Router>
-   
+    <Router>
+      <AppRoutes />
+    </Router>
   );
 };
 

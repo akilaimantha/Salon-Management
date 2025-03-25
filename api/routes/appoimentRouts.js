@@ -7,6 +7,7 @@ const router = express.Router();
 // Middleware for validating required fields
 const validateFields = (req, res, next) => {
     const requiredFields = [
+        "user_id",
         "client_name",
         "client_email",
         "client_phone",
@@ -29,6 +30,7 @@ const validateFields = (req, res, next) => {
 router.post('/', validateFields, async (req, res) => {
     try {
         const newAppointment = {
+            user_id: req.body.user_id,
             client_name: req.body.client_name,
             client_email: req.body.client_email,
             client_phone: req.body.client_phone,
@@ -58,6 +60,18 @@ router.get('/', async (req, res) => {
         console.log(error.message);
         res.status(500).send({ message: error.message });
     }
+});
+
+// Add this route BEFORE any routes with path parameters to prevent conflicts
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const appointments = await Appointment.find({ user_id: userId });
+    return res.status(200).json(appointments);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
 });
 
 // Route to get a specific appointment by ID
@@ -94,6 +108,7 @@ router.get('/:identifier', async (req, res) => {
         res.status(500).send({ message: 'Error fetching appointment: ' + error.message });
     }
 });
+
 // Route to update an appointment by ID
 router.put('/:id', validateFields, async (req, res) => {
     try {
@@ -108,7 +123,7 @@ router.put('/:id', validateFields, async (req, res) => {
 });
 
 
-// Route to delete an appointment by ID 
+// Route to delete an appointment by ID
 router.delete('/:id', async (request, response) => {
     try {
         const appointment = await Appointment.findByIdAndDelete(request.params.id);
