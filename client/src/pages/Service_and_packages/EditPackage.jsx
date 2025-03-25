@@ -164,7 +164,7 @@ const EditPackage = () => {
           text: error.message,
           confirmButtonColor: '#89198f',
         });
-        navigate('/manager/packages'); // Redirect to packages page on error
+        navigate('/manager/Service-management'); // Redirect to packages page on error
       }
     };
 
@@ -227,7 +227,7 @@ const EditPackage = () => {
         text: 'Package updated successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager/packages'); // Redirect to packages page
+        navigate('/manager/Service-management'); // Redirect to packages page
       });
     } catch (error) {
       Swal.fire({

@@ -14,11 +14,8 @@ import {
 import { IoIosLogOut } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { MdFeedback } from "react-icons/md";
-// import {
-//   signOutUserstart,
-//   signOutUserSuccess,
-//   signOutUserFailure,
-// } from "../../redux/user/userSlice";
+import { logout } from "../../features/auth/authslices";
+import { toast } from "react-toastify";
 import logo from "./../../assets/img/logo-removebg-preview.png";
 
 const sidebarVariants = {
@@ -40,7 +37,7 @@ const contentVariants = {
 export default function Sidebar({ isOpen, toggleSidebar }) {
   const location = useLocation();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState(location.pathname);
 
   const menuItems = [
@@ -69,21 +66,22 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     { name: "Profile", path: "/manager/profile", icon: <FaUserCircle /> },
   ];
 
-  // const handleSignOut = async () => {
-  //   try {
-  //     dispatch(signOutUserstart());
-  //     const res = await fetch("/api/auth/signout");
-  //     const data = await res.json();
-  //     if (data.success === false) {
-  //       dispatch(signOutUserFailure(data.message));
-  //       return;
-  //     }
-  //     dispatch(signOutUserSuccess(data));
-  //     navigate("/");
-  //   } catch (error) {
-  //     dispatch(signOutUserFailure(error.message));
-  //   }
-  // };
+  const handleSignOut = () => {
+    try {
+      localStorage.removeItem("token");
+      dispatch(logout());
+      toast.success("Signed out successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to sign out", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
+  };
 
   return (
     <motion.aside
@@ -150,7 +148,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       </ul>
 
       {/* SignOut Button styled as other menu items */}
-      {/* <div className="absolute bottom-0 w-full">
+      <div className="absolute bottom-0 w-full">
         <button
           className={`flex items-center text-DarkColor p-2 rounded-l-full transition-all duration-300 w-full ${
             selected === "/logout"
@@ -164,7 +162,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           </span>
           {isOpen && <span>LogOut</span>}
         </button>
-      </div> */}
+      </div>
     </motion.aside>
   );
 }
