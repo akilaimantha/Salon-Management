@@ -216,7 +216,7 @@ const CreatePackage = () => {
         text: 'Package created successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager/packages'); // Assuming manage packages route
+        navigate('/manager/'); // Assuming manage packages route
       });
     } catch (error) {
       Swal.fire({

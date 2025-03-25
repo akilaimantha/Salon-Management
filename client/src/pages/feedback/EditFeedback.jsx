@@ -167,6 +167,8 @@ const EditFeedback = () => {
                 className="mt-1 w-full p-3 rounded-lg border-2 border-gray-200 focus:border-DarkColor focus:ring-2 focus:ring-SecondaryColor"
                 placeholder="e.g., 12345"
                 required
+                readOnly
+      
               />
             </div>
 
