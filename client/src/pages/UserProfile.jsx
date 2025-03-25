@@ -13,6 +13,7 @@ import {
   Brush,
   Smile,
   Loader,
+  ArrowLeft,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
@@ -432,6 +433,10 @@ const ProfilePage = () => {
     phone: user?.phone || "",
   });
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigate to the previous page
+  };
+
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
     if (!isEditing) {
@@ -518,6 +523,15 @@ const ProfilePage = () => {
       <div className="relative min-h-screen bg-[#d8f3dc] flex items-center justify-center p-4 overflow-hidden">
         <ToastContainer />
         <BackgroundIcons />
+
+        {/* Back Button */}
+        <button 
+          onClick={handleGoBack}
+          className="absolute top-4 left-4 z-30 bg-white p-2 rounded-full shadow-md hover:bg-[#95d5b2] transition-colors"
+          aria-label="Go back"
+        >
+          <ArrowLeft size={24} className="text-[#1b4332]" />
+        </button>
 
         <div className="container mx-auto grid grid-cols-3 gap-6">
           {/* Profile Card - 1/3 Width */}
