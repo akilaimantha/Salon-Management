@@ -47,7 +47,7 @@ export default function InventoryManagement() {
           }`}
           onClick={() => setActiveTab("retrieved")}
         >
-          Retrieved Items
+          Stock Tracking
         </div>
       </div>
 

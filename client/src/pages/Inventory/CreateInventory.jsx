@@ -108,7 +108,7 @@ const CreateInventory = () => {
         text: 'Inventory item created successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager/inventory-management'); // Redirect to inventory page
+        navigate('/manager'); // Redirect to inventory page
       });
     } catch (error) {
       Swal.fire({
