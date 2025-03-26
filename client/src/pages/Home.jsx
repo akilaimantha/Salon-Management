@@ -611,7 +611,7 @@ function SalonHomepage() {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">Glamour Salon</h3>
+              <h3 className="text-xl font-bold mb-4">GlowSuite Salon</h3>
               <p className="mb-4">Award-winning salon since 2010, providing luxury beauty services.</p>
             </div>
             <div>
@@ -630,7 +630,7 @@ function SalonHomepage() {
                   <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
-                  456 Glamour Ave, Beauty City
+                  456 GlowSuite Ave, Beauty City
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -657,7 +657,7 @@ function SalonHomepage() {
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p>© 2025 Glamour Salon. All rights reserved.</p>
+            <p>© 2025 GlowSuite Salon. All rights reserved.</p>
           </div>
         </div>
       </footer>
