@@ -103,7 +103,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
               {/* Logo */}
               <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold text-ExtraDarkColor">
-          Glamour Salon
+          GlowSuite Salon
         </div>
               </div>
               {/* Close Button (visible in open mode) */}
