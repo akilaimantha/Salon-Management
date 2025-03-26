@@ -91,7 +91,7 @@ const Navbar = () => {
     <nav className="bg-PrimaryColor text-ExtraDarkColor p-4 sticky top-0 z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold text-ExtraDarkColor">
-          Glamour Salon
+          GlowSuite Salon
         </div>
 
         {/* Desktop Menu */}
