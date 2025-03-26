@@ -183,7 +183,7 @@ function SalonHomepage() {
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
               <div className="text-center text-white px-4">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  {user ? `Welcome Back, ${user.name}!` : 'Discover Your Beauty at Glamour Salon'}
+                  {user ? `Welcome Back, ${user.name}!` : 'Discover Your Beauty at GlowSuite Salon'}
                 </h1>
                 <p className="text-xl mb-8">
                   {user ? 'Your next appointment awaits' : 'Premium beauty services since 2010'}
