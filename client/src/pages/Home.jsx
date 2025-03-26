@@ -336,7 +336,7 @@ function SalonHomepage() {
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2">
-              <h2 className="text-4xl font-bold mb-6">Welcome to Glamour Salon</h2>
+              <h2 className="text-4xl font-bold mb-6">Welcome to GlowSuite Salon</h2>
               <p className="text-lg mb-6 leading-relaxed">
                 Since 2010, Glamour Salon has been the premier destination for beauty and wellness services. 
                 Our team of expert stylists and beauty professionals are dedicated to helping you look and feel your best.
