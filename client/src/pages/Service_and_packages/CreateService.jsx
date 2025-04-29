@@ -203,7 +203,7 @@ const CreateService = () => {
         text: 'Service created successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager/');
+        navigate('/manager/Service-management', { state: { activeTab: 'manageService' } });
       });
     } catch (error) {
       Swal.fire({
