@@ -493,7 +493,7 @@ const ManageInventory = () => {
           </div>
           
           <button
-            onClick={handleAdd}
+            // onClick={handleAdd}
             className="p-2 bg-PrimaryColor text-DarkColor rounded-full hover:bg-SecondaryColor transition-all"
           >
             <FiPlus size={24} />
