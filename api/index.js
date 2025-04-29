@@ -20,14 +20,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Allow requests from your frontend
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization", // Allow Authorization header
-    credentials: true, // If using cookies or authentication tokens
-  })
-);
+
+// Apply CORS before defining routes
+const corsOptions = {
+  origin: "http://localhost:5173", // Allow requests from your frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Array format for methods
+  allowedHeaders: "Content-Type,Authorization", 
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // Calculate __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url); // Get the current file's path
