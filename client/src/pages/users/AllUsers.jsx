@@ -14,7 +14,7 @@ import {
   BarChart2,
 } from "lucide-react";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from 'jspdf-autotable';
 import {
   PieChart,
   Pie,
@@ -113,107 +113,81 @@ const UserManagement = () => {
   };
 
   const downloadPDF = async () => {
-    const doc = new jsPDF({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-    });
-
-    // Header
-    doc
-      .setFont("helvetica", "normal")
-      .setFontSize(28)
-      .setTextColor(COLOR_THEME.ExtraDarkColor);
-    doc.text("User Management", 105, 20, { align: "center" });
-
-    doc.setFont("helvetica", "normal").setFontSize(18).setTextColor(0, 0, 0);
-    doc.text("Comprehensive User Report", 105, 30, { align: "center" });
-
-    // Date
-    const currentDate = new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    doc.setFontSize(10).setTextColor(100, 100, 100);
-    doc.text(`Generated on: ${currentDate}`, 20, 48);
-
-    // User Count Cards
-    const cardY = 60;
-    const cardWidth = 50;
-    const cardHeight = 25;
-    const cardSpacing = 5;
-
-    const drawCard = (x, y, title, count) => {
-      doc.setFillColor(COLOR_THEME.PrimaryColor);
-      doc.roundedRect(x, y, cardWidth, cardHeight, 3, 3, "F");
-      doc.setFont("helvetica", "normal").setFontSize(10).setTextColor(0, 0, 0);
-      doc.text(title, x + cardWidth / 2, y + 8, { align: "center" });
-      doc.setFontSize(14).setTextColor(COLOR_THEME.ExtraDarkColor);
-      doc.text(count.toString(), x + cardWidth / 2, y + 20, {
-        align: "center",
+    try {
+      // Create new document
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
       });
-    };
+      
+      // Header
+      doc
+        .setFont("helvetica", "normal")
+        .setFontSize(28)
+        .setTextColor(COLOR_THEME.ExtraDarkColor);
+      doc.text("User Management", 105, 20, { align: "center" });
+      
+      doc.setFont("helvetica", "normal").setFontSize(18).setTextColor(0, 0, 0);
+      doc.text("User Data Report", 105, 30, { align: "center" });
 
-    drawCard(20, cardY, "Total Users", userCounts.total);
-    drawCard(
-      20 + cardWidth + cardSpacing,
-      cardY,
-      "Customers",
-      userCounts.customers
-    );
-    drawCard(
-      20 + (cardWidth + cardSpacing) * 2,
-      cardY,
-      "Managers",
-      userCounts.managers
-    );
+      // Date
+      const currentDate = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      doc.setFontSize(10).setTextColor(100, 100, 100);
+      doc.text(`Generated on: ${currentDate}`, 20, 40);
 
-    // Generate Pie Chart image
-    if (chartRef.current) {
-      const canvas = await html2canvas(chartRef.current);
-      const imgData = canvas.toDataURL("image/png");
-      doc.addImage(imgData, "PNG", 70, 100, 90, 70);
+      // Simple summary text instead of cards and charts
+      doc.setFont("helvetica", "normal").setFontSize(12).setTextColor(0, 0, 0);
+      doc.text(`Total Users: ${userCounts.total}`, 20, 50);
+      doc.text(`Customers: ${userCounts.customers}`, 20, 58);
+      doc.text(`Managers: ${userCounts.managers}`, 20, 66);
+
+      // Add table with user data - using the autoTable plugin properly
+      autoTable(doc, {
+        startY: 75,
+        head: [["Name", "Email", "Phone Number", "Role", "Status", "Created At"]],
+        body: filteredUsers.map((user) => [
+          user.name || "",
+          user.email || "",
+          user.phone || "",
+          user.role || "",
+          user.status || "",
+          user.createdAt || "",
+        ]),
+        styles: { fontSize: 9, cellPadding: 2 },
+        headStyles: {
+          fillColor: COLOR_THEME.DarkColor,
+          textColor: '#ffffff',
+        },
+        alternateRowStyles: { fillColor: COLOR_THEME.PrimaryColor },
+      });
+
+      // Footer (Page numbering)
+      const pageCount = doc.internal.getNumberOfPages();
+      doc
+        .setFont("helvetica", "normal")
+        .setFontSize(8)
+        .setTextColor(100, 100, 100);
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.text(
+          `Page ${i} of ${pageCount}`,
+          doc.internal.pageSize.width / 2,
+          doc.internal.pageSize.height - 10,
+          { align: "center" }
+        );
+      }
+
+      // Save the PDF
+      doc.save("User_Report.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      Swal.fire("Error!", "Failed to generate PDF report.", "error");
     }
-
-    // Add table with user data
-    doc.autoTable({
-      startY: cardY + cardHeight + 100,
-      head: [["Name", "Email", "Phone Number", "Role", "Status", "Created At"]],
-      body: filteredUsers.map((user) => [
-        user.name,
-        user.email,
-        user?.phone || "",
-        user.role,
-        user.status,
-        user.createdAt,
-      ]),
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: {
-        fillColor: [COLOR_THEME.DarkColor],
-        textColor: 255,
-      },
-      alternateRowStyles: { fillColor: [COLOR_THEME.PrimaryColor] },
-    });
-
-    // Footer (Page numbering)
-    const pageCount = doc.internal.getNumberOfPages();
-    doc
-      .setFont("helvetica", "normal")
-      .setFontSize(8)
-      .setTextColor(100, 100, 100);
-    for (let i = 1; i <= pageCount; i++) {
-      doc.setPage(i);
-      doc.text(
-        `Page ${i} of ${pageCount}`,
-        doc.internal.pageSize.width / 2,
-        doc.internal.pageSize.height - 10,
-        { align: "center" }
-      );
-    }
-
-    // Save the PDF
-    doc.save("User_Report.pdf");
   };
 
   const handleDownload = () => {
