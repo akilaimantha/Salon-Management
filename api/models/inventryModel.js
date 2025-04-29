@@ -27,9 +27,15 @@ const inventorySchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-    
+        retrievalHistory: [{
+            quantity: Number,
+            retrievedAt: {
+                type: Date,
+                default: Date.now
+            }
+        }],
     },
-  { timestamps: true }
+    { timestamps: true }
 );
 
 const inventory = mongoose.model("inventory", inventorySchema);

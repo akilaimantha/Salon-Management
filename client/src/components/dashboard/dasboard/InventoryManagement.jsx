@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import CreateInventory from "../../../pages/Inventory/CreateInventory";
 import ManageInventory from "../../../pages/Inventory/ManageInventory";
 
 export default function InventoryManagement() {
-  const [activeTab, setActiveTab] = useState("all"); // State to manage active tab
+  const [activeTab, setActiveTab] = useState("all"); // Default to "all" tab
+  const location = useLocation();
+
+  // Check for tab parameter in location state when component mounts or location changes
+  useEffect(() => {
+    if (location.state && location.state.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location]);
 
   return (
     <motion.div
@@ -39,7 +48,7 @@ export default function InventoryManagement() {
         >
           Add Item
         </div>
-        <div
+        {/* <div
           className={`cursor-pointer px-4 py-2 -mb-1 ${
             activeTab === "retrieved"
               ? "border-b-4 border-DarkColor text-DarkColor"
@@ -47,8 +56,8 @@ export default function InventoryManagement() {
           }`}
           onClick={() => setActiveTab("retrieved")}
         >
-          Stock Tracking
-        </div>
+          Retrieved Items
+        </div> */}
       </div>
 
       {/* Render Tab Content with Animation */}

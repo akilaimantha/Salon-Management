@@ -128,3 +128,32 @@ export const getOneInventory = async (request, response ) => {
     }
   }
 
+  export const retrieveItems = async (request, response) => {
+    try {
+      const { id } = request.params;
+      const { quantity } = request.body;
+
+      const inventory = await Inventory.findById(id);
+      if (!inventory) {
+        return response.status(404).json({ message: 'Inventory not found' });
+      }
+
+      const retrieveAmount = parseInt(quantity);
+      
+      // Make both quantities match by making quantity equal to retrieve amount
+      inventory.Quantity = retrieveAmount.toString();
+      
+      // Add to retrieval history
+      inventory.retrievalHistory.push({ quantity: retrieveAmount });
+      
+      await inventory.save();
+
+      return response.status(200).json({
+        message: 'Items retrieved successfully',
+        updatedQuantity: inventory.Quantity
+      });
+    } catch (error) {
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+    }
+  };
