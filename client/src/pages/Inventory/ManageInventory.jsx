@@ -214,11 +214,16 @@ const ManageInventory = () => {
     doc.setFillColor(137, 25, 143); // PrimaryColor
     doc.rect(0, 0, doc.internal.pageSize.getWidth(), 25, 'F');
     
+    // Add logo 
+    // const logoBase64 = ''; // Your logo
+    // // Add logo at top-left
+    // doc.addImage(logoBase64, 'PNG', 10, 8, 40, 16); 
+
     // Add title
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(255, 255, 255); // White text on purple header
     doc.setFontSize(20);
-    doc.text('Glamour Hair & Beauty Salon', doc.internal.pageSize.getWidth() / 2, 12, { align: 'center' });
+    doc.text('GlowSuite Hair & Beauty Salon', doc.internal.pageSize.getWidth() / 2, 12, { align: 'center' });
     doc.setFontSize(16);
     doc.text('Inventory Items Report', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
     
