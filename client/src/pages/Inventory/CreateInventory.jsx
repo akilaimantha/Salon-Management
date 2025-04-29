@@ -108,7 +108,7 @@ const CreateInventory = () => {
         text: 'Inventory item created successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager'); // Redirect to inventory page
+        navigate('/manager/inventory-management', { state: { activeTab: 'all' } }); // Navigate with active tab state
       });
     } catch (error) {
       Swal.fire({

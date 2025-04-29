@@ -144,7 +144,7 @@ const EditInventory = () => {
         text: 'Inventory item updated successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager/inventory-management'); // Redirect to inventory page
+        navigate('/manager/inventory-management', { state: { activeTab: 'all' } }); // Navigate with active tab state
       });
     } catch (error) {
       Swal.fire({
