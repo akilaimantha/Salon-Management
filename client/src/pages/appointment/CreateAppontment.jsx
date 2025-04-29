@@ -4,9 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiX, FiArrowLeft } from 'react-icons/fi';
 import Swal from 'sweetalert2';
+import emailjs from 'emailjs-com';
 import API_CONFIG from '../../config/apiConfig';
 import Navbar from '../../components/Navbar';
 import { logout } from '../../features/auth/authslices';
+
+// EmailJS configuration
+const EMAILJS_SERVICE_ID = 'service_iu1yy2s';
+const EMAILJS_TEMPLATE_ID = 'template_ct24pls';
+const EMAILJS_PUBLIC_KEY = 'Fbi2D_ksFPj8NcpjK';
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 const STYLISTS = ['Alice', 'Bob', 'Charlie', 'Diana'];
 
@@ -99,10 +108,10 @@ const CreateAppointment = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    // Validation for client name - prevent numbers
+    // Validation for client name - prevent numbers and special characters except spaces and some punctuation
     if (name === 'client_name') {
-      // Only allow letters, spaces and some special characters
-      const nameValue = value.replace(/[0-9]/g, '');
+      // Only allow letters, spaces, apostrophes, hyphens and periods
+      const nameValue = value.replace(/[^A-Za-z\s.'-]/g, '');
       setFormData((prev) => ({ ...prev, [name]: nameValue }));
       return;
     }
@@ -185,11 +194,23 @@ const CreateAppointment = () => {
     try {
       setIsSubmitting(true);
 
-      // Prepare the data to send
+      // Format date and time for better readability in email
+      const formattedDate = new Date(formData.appoi_date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      
+      const formattedTime = formData.appoi_time;
+      const servicesText = formData.services.join(', ');
+
+      // Prepare the data to send to backend
       const appointmentData = {
         ...formData,
         user_id: user._id, // Use the user's ID from the Redux store
-        services: formData.services.join(', '), // Convert array to string
+        services: servicesText, // Convert array to string
+        status: "Processing" // Set default status explicitly
       };
 
       // Use API_CONFIG to construct the URL
@@ -206,6 +227,33 @@ const CreateAppointment = () => {
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || 'Failed to create appointment');
+
+      // Send confirmation email using EmailJS
+      // Create template parameters according to your EmailJS template
+      const templateParams = {
+        to_name: formData.client_name,
+        to_email: formData.client_email,
+        appointment_date: formattedDate,
+        appointment_time: formattedTime,
+        services: servicesText,
+        stylist_name: formData.stylist,
+        from_name: "Saloon Management",
+        reply_to: "noreply@saloon.com",
+        message: `Your appointment has been successfully scheduled for ${formattedDate} at ${formattedTime} with stylist ${formData.stylist}.`
+      };
+
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          templateParams
+        );
+        console.log('Email sent successfully');
+      } catch (emailError) {
+        console.error('Email error:', emailError);
+        // Don't throw the error, just log it - we don't want to prevent appointment creation
+        // if email sending fails
+      }
 
       // Show success message
       Swal.fire({
@@ -268,7 +316,7 @@ const CreateAppointment = () => {
                   placeholder="e.g., John Doe"
                   required
                   pattern="^[A-Za-z\s.'-]+$"
-                  title="Name cannot contain numbers"
+                  title="Please enter only letters, spaces, and characters like apostrophes or hyphens"
                 />
               </div>
 
@@ -466,4 +514,3 @@ const CreateAppointment = () => {
 };
 
 export default CreateAppointment;
-
