@@ -132,8 +132,8 @@ const CreateInventory = () => {
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <button
-            onClick={() => navigate(-1)}
+        <button
+            onClick={() =>  navigate('/manager/inventory-management', { state: { activeTab: 'all' } })}
             className="p-2 bg-PrimaryColor text-DarkColor rounded-full hover:bg-SecondaryColor transition-all"
           >
             <FiArrowLeft size={24} />
