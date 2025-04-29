@@ -216,7 +216,7 @@ const CreatePackage = () => {
         text: 'Package created successfully!',
         confirmButtonColor: '#89198f',
       }).then(() => {
-        navigate('/manager/'); // Assuming manage packages route
+        navigate('/manager/Service-management', { state: { activeTab: 'managePackage' } }); 
       });
     } catch (error) {
       Swal.fire({
