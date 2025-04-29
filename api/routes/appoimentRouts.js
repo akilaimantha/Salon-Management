@@ -40,7 +40,7 @@ router.post('/', validateFields, async (req, res) => {
             customize_package: req.body.customize_package,
             appoi_date: req.body.appoi_date,
             appoi_time: req.body.appoi_time,
-         
+            status: req.body.status || "Processing", // Explicitly set status here as well
         };
 
         const createdAppointment = await Appointment.create(newAppointment);
@@ -74,18 +74,45 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
+// Route to update appointment status - moved BEFORE the generic ID route to prevent conflicts
+router.put('/status/:id', async (req, res) => {
+    try {
+        const { status } = req.body;
+        if (!status) {
+            return res.status(400).json({ message: 'Status field is required' });
+        }
+
+        // Find the appointment first
+        const existingAppointment = await Appointment.findById(req.params.id);
+        if (!existingAppointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        // Update only the status field while keeping all other fields unchanged
+        existingAppointment.status = status;
+        await existingAppointment.save();
+
+        res.status(200).json(existingAppointment);
+    } catch (error) {
+        console.error('Error updating appointment status:', error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Route to update an appointment by ID
+router.put('/:id', validateFields, async (req, res) => {
+    try {
+        const appointment = await Appointment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        if (!appointment) return res.status(404).send('Appointment not found');
+
+        res.send(appointment);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
 // Route to get a specific appointment by ID
-// router.get('/:id', async (req, res) => {
-//     try {
-//         const appointment = await Appointment.findById(req.params.id);
-//         if (!appointment) {
-//           return res.status(404).json({ message: 'Appointment not found' });
-//         }
-//         res.json(appointment);
-//       } catch (error) {
-//         res.status(500).json({ message: 'Server error' });
-//       }
-// });
 router.get('/:identifier', async (req, res) => {
     try {
         const { identifier } = req.params;
@@ -108,20 +135,6 @@ router.get('/:identifier', async (req, res) => {
         res.status(500).send({ message: 'Error fetching appointment: ' + error.message });
     }
 });
-
-// Route to update an appointment by ID
-router.put('/:id', validateFields, async (req, res) => {
-    try {
-        const appointment = await Appointment.findByIdAndUpdate(req.params.id, req.body, { new: true });
-
-        if (!appointment) return res.status(404).send('Appointment not found');
-
-        res.send(appointment);
-    } catch (error) {
-        res.status(400).send(error);
-    }
-});
-
 
 // Route to delete an appointment by ID
 router.delete('/:id', async (request, response) => {
