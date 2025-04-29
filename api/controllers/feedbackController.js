@@ -42,39 +42,69 @@ const validateFields = (req, res, next) => {
 };
 
 // Create new feedback
-export const createFeedback =async (req, res) => {
-    
+export const createFeedback = async (req, res) => {
     try {
-
+        console.log('Received feedback request body:', req.body); // Log entire request body
+        
         const {
             user_id,
             serviceID,
             message,
             date_of_service,
             star_rating,
-            
         } = req.body;
 
-
-
+        // Explicitly define the new feedback object with status
         const newFeedback = {
             user_id,
             serviceID,
             date_of_service,
             message,
             star_rating,
+            status: 'pending', // Explicit default status
         };
+
+        console.log('Creating feedback with data:', newFeedback); // Log what we're trying to save
 
         // Save new feedback to the database
         const feedback = await Feedback.create(newFeedback);
         if (!feedback) {
             return res.status(500).json({ message: "Failed to create feedback" });
         }
-       return  res.status(201).json(feedback);
+        
+        console.log('Feedback created successfully:', feedback); // Log created feedback
+        return res.status(201).json(feedback);
+    } catch (error) {
+        console.error('Error creating feedback:', error);
+        return res.status(500).json({ message: error.message });
+    }
+};
 
+// Update feedback status
+export const updateFeedbackStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        
+        if (!['pending', 'approved', 'declined'].includes(status)) {
+            return res.status(400).send({ message: "Invalid status value" });
+        }
+        
+        const feedback = await Feedback.findById(id);
+        if (!feedback) {
+            return res.status(404).send({ message: "Feedback not found" });
+        }
+        
+        feedback.status = status;
+        await feedback.save();
+        
+        res.status(200).send({ 
+            message: `Feedback status updated to ${status}`,
+            feedback
+        });
     } catch (error) {
         console.error(error.message);
-        return res.status(500).json({ message: error.message });
+        res.status(500).send({ message: error.message });
     }
 };
 
@@ -136,7 +166,7 @@ export const getAllFeedback = async (req, res) => {
                 const feedbackObj = item.toObject();
                 
                 if (item.serviceID) {
-                    console.log(`Looking up service with ID: ${item.serviceID}`);
+                    // console.log(`Looking up service with ID: ${item.serviceID}`);
                     try {
                         // First try direct lookup by service_ID
                         let service = await Service.findOne({ service_ID: item.serviceID });
@@ -237,10 +267,3 @@ export const getOneFeedback = async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 };
-
-
-
-
-
-
-
