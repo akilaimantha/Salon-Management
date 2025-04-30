@@ -92,7 +92,7 @@ const ManageService = () => {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(255, 255, 255); // White text on purple header
     doc.setFontSize(20);
-    doc.text('Glamour Hair & Beauty Salon', doc.internal.pageSize.getWidth() / 2, 12, { align: 'center' });
+    doc.text('GlowSuite Salon', doc.internal.pageSize.getWidth() / 2, 12, { align: 'center' });
     doc.setFontSize(16);
     doc.text('Services Report', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
     
@@ -171,7 +171,7 @@ const ManageService = () => {
     // Add footer
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
-    doc.text('Glamour Hair & Beauty Salon - Service Management System', 
+    doc.text('GlowSuite Salon - Service Management System', 
       doc.internal.pageSize.getWidth() / 2, 
       doc.internal.pageSize.getHeight() - 5, 
       { align: 'center' }
