@@ -90,7 +90,7 @@ const ManageAppointment = () => {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(20);
-    doc.text('Glamour Hair & Beauty Salon', doc.internal.pageSize.getWidth() / 2, 12, { align: 'center' });
+    doc.text('GlowSuite Salon', doc.internal.pageSize.getWidth() / 2, 12, { align: 'center' });
     doc.setFontSize(16);
     doc.text('Appointments Report', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
 
