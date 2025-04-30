@@ -95,7 +95,12 @@ function SalonHomepage() {
       const data = await response.json();
 
       if (!response.ok) throw new Error(data.message || 'Failed to fetch reviews');
-      setReviews(data);
+      
+      // Filter to only show approved feedback
+      const approvedReviews = data.filter(review => review.status === 'approved');
+      setReviews(approvedReviews || []);
+      
+      console.log('Approved reviews:', approvedReviews.length);
     } catch (err) {
       setError(prev => ({...prev, reviews: err.message}));
       Swal.fire({
@@ -183,7 +188,7 @@ function SalonHomepage() {
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
               <div className="text-center text-white px-4">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  {user ? `Welcome Back, ${user.name}!` : 'Discover Your Beauty at GlowSuite Salon'}
+                  {user ? `Welcome Back, ${user.name}!` : 'Discover Your Beauty at Glamour Salon'}
                 </h1>
                 <p className="text-xl mb-8">
                   {user ? 'Your next appointment awaits' : 'Premium beauty services since 2010'}
@@ -336,7 +341,7 @@ function SalonHomepage() {
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2">
-              <h2 className="text-4xl font-bold mb-6">Welcome to GlowSuite Salon</h2>
+              <h2 className="text-4xl font-bold mb-6">Welcome to Glamour Salon</h2>
               <p className="text-lg mb-6 leading-relaxed">
                 Since 2010, Glamour Salon has been the premier destination for beauty and wellness services. 
                 Our team of expert stylists and beauty professionals are dedicated to helping you look and feel your best.
@@ -555,7 +560,7 @@ function SalonHomepage() {
                         </div>
                       ))
                   ) : (
-                    <p className="text-center text-gray-500 col-span-4">No reviews available at the moment.</p>
+                    <p className="text-center text-gray-500 col-span-4">No approved reviews available at the moment.</p>
                   )}
                 </div>
                 
@@ -611,7 +616,7 @@ function SalonHomepage() {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">GlowSuite Salon</h3>
+              <h3 className="text-xl font-bold mb-4">Glamour Salon</h3>
               <p className="mb-4">Award-winning salon since 2010, providing luxury beauty services.</p>
             </div>
             <div>
@@ -630,7 +635,7 @@ function SalonHomepage() {
                   <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
-                  456 GlowSuite Ave, Beauty City
+                  456 Glamour Ave, Beauty City
                 </li>
                 <li className="flex items-center">
                   <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -643,7 +648,7 @@ function SalonHomepage() {
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
-                  info@glowsuitesalon.com
+                  info@glamoursalon.com
                 </li>
               </ul>
             </div>
@@ -657,7 +662,7 @@ function SalonHomepage() {
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p>© 2025 GlowSuite Salon. All rights reserved.</p>
+            <p>© 2025 Glamour Salon. All rights reserved.</p>
           </div>
         </div>
       </footer>
