@@ -173,7 +173,7 @@ const ManageAppointment = () => {
 
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
-    doc.text('Glamour Hair & Beauty Salon - Appointments Management System',
+    doc.text('GlowSuite Salon - Appointments Management System',
       doc.internal.pageSize.getWidth() / 2,
       doc.internal.pageSize.getHeight() - 5,
       { align: 'center' }
